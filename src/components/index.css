@@ -1,0 +1,11 @@
+.animate-on-scroll {
+  position: relative;
+  width: 100%;
+}
+
+.animate-on-scroll .wrapper {
+  overflow: hidden;
+  position: sticky;
+  top: 0;
+  left: 0;
+}

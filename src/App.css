@@ -1,0 +1,67 @@
+.container {
+  display: flex;
+  width: 100%;
+}
+
+.horizontal-bar {
+  width: 0px;
+  height: 40px;
+  background-color: white;
+}
+
+.vertical-bar {
+  width: 40px;
+  height: 0px;
+  background-color: red;
+}
+
+.c2 {
+  width: 100%;
+  height: 100vh;
+  background-color: black;
+}
+
+.img-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  > div {
+    width: calc(100% - calc(var(--pov-scroll) / 1000 * 100px));
+    background-size: calc(120% + var(--pov-scroll) * 0.0001 * 100%) !important;
+  }
+}
+
+.text-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, calc(60% - var(--pov-scroll) / 1000 * 100%));
+}
+
+.text-container h1 {
+  font-size: 4rem;
+  color: white;
+  opacity: calc(1 - var(--pov-scroll) / 1000 * 1);
+  transform: translateY(calc(-1 * var(--pov-scroll) / 1000 * 100px));
+}
+
+.horizontal-scroll {
+  display: flex;
+  width: 100%; 
+  overflow: hidden;
+}
+
+.horizontal-scroll > div {
+  width: 25vw;
+  height: 100vh;
+  background-size: cover;
+  background-position: calc(60% - (var(--pov-scroll) / 1000 * 15%)) 50%;
+  background-repeat: no-repeat;
+  will-change: background-position;
+  flex-shrink: 0;
+}
