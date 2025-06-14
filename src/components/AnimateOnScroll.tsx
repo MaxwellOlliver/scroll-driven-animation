@@ -1,4 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import "./index.css";
 
 interface AnimateOnScrollProps {
@@ -6,6 +12,7 @@ interface AnimateOnScrollProps {
   multiple: number;
   threshold: number;
   onAnimation?: (povScroll: number) => void;
+  disabled?: boolean;
 }
 
 // 1.
@@ -15,6 +22,7 @@ export function AnimateOnScroll({
   multiple,
   threshold = 0.1,
   onAnimation,
+  disabled = false,
 }: AnimateOnScrollProps) {
   const [isVisible, setIsVisible] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -23,10 +31,7 @@ export function AnimateOnScroll({
   const vh = window.innerHeight;
   const scrollSize = multiple * vh;
 
-  function handleScroll() {
-    if (!isVisible) {
-      return;
-    }
+  const handleScroll = useCallback(() => {
     const top =
       (scrollContainerRef.current?.getBoundingClientRect().top ?? 0) +
       window.scrollY;
@@ -41,10 +46,10 @@ export function AnimateOnScroll({
       wrapper?.style.setProperty("--pov-scroll", povScroll.toString());
       onAnimation?.(povScroll);
     });
-  }
+  }, [onAnimation]);
 
   useEffect(() => {
-    if (!wrapperRef.current) return;
+    if (!wrapperRef.current || disabled) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -67,21 +72,25 @@ export function AnimateOnScroll({
     return () => {
       observer.disconnect();
     };
-  }, [threshold, isVisible]);
+  }, [threshold, isVisible, disabled]);
 
   useEffect(() => {
+    if (disabled || !isVisible) return;
+
     window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [scrollSize, isVisible]);
+  }, [disabled, isVisible, handleScroll]);
 
-  useEffect(() => {
-    if (!scrollContainerRef.current) return;
+  useLayoutEffect(() => {
+    if (!scrollContainerRef.current || disabled || !isVisible) return;
 
     function firstCall() {
-      const top = scrollContainerRef.current?.getBoundingClientRect().top ?? 0;
+      const top =
+        (scrollContainerRef.current?.getBoundingClientRect().top ?? 0) +
+        window.scrollY;
 
       const scrollY = window.scrollY;
       const povScroll = scrollY - top;
@@ -95,14 +104,14 @@ export function AnimateOnScroll({
       });
     }
     firstCall();
-  }, [scrollSize, onAnimation]);
+  }, [scrollSize, onAnimation, disabled, isVisible]);
 
   return (
     <div
       className="animate-on-scroll"
       ref={scrollContainerRef}
       style={{
-        height: `${scrollSize}px`,
+        height: disabled ? "fit-content" : `${scrollSize}px`,
       }}
     >
       <div

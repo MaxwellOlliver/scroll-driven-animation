@@ -1,46 +1,52 @@
+/* Layout Containers */
 .container {
   display: flex;
   width: 100%;
 }
 
-.horizontal-bar {
-  width: 0px;
-  height: 40px;
-  background-color: white;
-}
-
-.vertical-bar {
-  width: 40px;
-  height: 0px;
-  background-color: red;
-}
-
-.c2 {
-  width: 100%;
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100vh;
-  background-color: black;
+  font-size: 1rem;
+  font-weight: 300;
+  color: white;
+  text-align: center;
 }
 
+/* Image Container Styles */
 .img-container {
   width: 100%;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 
-  > div {
-    width: calc(100% - calc(var(--pov-scroll) / 1000 * 100px));
-    background-size: calc(120% + var(--pov-scroll) * 0.0001 * 100%) !important;
+
+  > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    transform: scale(calc(1 + var(--pov-scroll) / 1000 * 0.1));
+    filter: grayscale(calc(100% - var(--pov-scroll) / 1000 * 100%));
   }
 }
 
+/* Text Container Styles */
 .text-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, calc(60% - var(--pov-scroll) / 1000 * 100%));
+  background-color: rgba(0,0,0, calc(60% - var(--pov-scroll) / 1000 * 100%));
+  padding: 4rem;
 }
 
 .text-container h1 {
@@ -48,20 +54,78 @@
   color: white;
   opacity: calc(1 - var(--pov-scroll) / 1000 * 1);
   transform: translateY(calc(-1 * var(--pov-scroll) / 1000 * 100px));
+  mix-blend-mode: difference;
+  font-weight: 300;
 }
 
+/* Horizontal Scroll Section */
 .horizontal-scroll {
   display: flex;
+  max-height: 100dvh;
+  height: 100dvh;
   width: 100%; 
   overflow: hidden;
 }
 
-.horizontal-scroll > div {
-  width: 25vw;
-  height: 100vh;
+.horizontal-scroll-img {
+  width: max(25dvw, 300px);
+  display: flex;
   background-size: cover;
   background-position: calc(60% - (var(--pov-scroll) / 1000 * 15%)) 50%;
   background-repeat: no-repeat;
   will-change: background-position;
   flex-shrink: 0;
+}
+
+.horizontal-scroll-img:first-child {
+  border-radius: 1rem 0 0 1rem;
+}
+
+.horizontal-scroll-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem;
+  min-width: 50dvw;
+}
+
+.horizontal-scroll-item h1 {
+  font-size: 2rem;
+  color: white;
+  font-weight: 300;
+  margin: 0;
+}
+
+.horizontal-scroll-item p {
+  font-size: 1rem;
+  font-weight: 300;
+  color: #afafaf;
+}
+
+/* Disable Animation Styles */
+[data-animation-enabled="false"] {
+  --pov-scroll: 0;
+
+  .img-container > div {
+    background-size: cover !important;
+  }
+
+  .text-container h1 {
+    opacity: 1;
+    transform: translateY(0);
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .horizontal-scroll {
+    overflow-x: auto;
+  }
+
+  .horizontal-scroll-img {
+    background-position: 50% 50% !important;
+  }
+
+  .horizontal-scroll-item {
+    padding: 2rem;
+  }
 }
