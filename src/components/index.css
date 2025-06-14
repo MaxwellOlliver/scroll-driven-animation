@@ -8,4 +8,10 @@
   position: sticky;
   top: 0;
   left: 0;
+
+  @property --pov-scroll {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+  }
 }

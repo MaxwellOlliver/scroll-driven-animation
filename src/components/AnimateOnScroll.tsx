@@ -15,8 +15,6 @@ interface AnimateOnScrollProps {
   disabled?: boolean;
 }
 
-// 1.
-
 export function AnimateOnScroll({
   children,
   multiple,
@@ -95,8 +93,6 @@ export function AnimateOnScroll({
       const scrollY = window.scrollY;
       const povScroll = scrollY - top;
 
-      console.log("init", povScroll);
-
       window.requestAnimationFrame(() => {
         wrapperRef.current?.style.setProperty(
           "--pov-scroll",
@@ -108,12 +104,16 @@ export function AnimateOnScroll({
     firstCall();
   }, [scrollSize, onAnimation, disabled]);
 
+  if (disabled) {
+    return children;
+  }
+
   return (
     <div
       className="animate-on-scroll"
       ref={scrollContainerRef}
       style={{
-        height: disabled ? "fit-content" : `${scrollSize}px`,
+        height: `${scrollSize}px`,
       }}
     >
       <div

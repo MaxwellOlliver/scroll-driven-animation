@@ -56,7 +56,7 @@ function App() {
         </div>
       </AnimateOnScroll>
       <AnimateOnScroll
-        multiple={3.7}
+        multiple={3.5}
         threshold={1}
         onAnimation={handleHScrollAnimation}
         disabled={!isDesktop}
