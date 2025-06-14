@@ -85,7 +85,7 @@ export function AnimateOnScroll({
   }, [disabled, isVisible, handleScroll]);
 
   useLayoutEffect(() => {
-    if (!scrollContainerRef.current || disabled || !isVisible) return;
+    if (!scrollContainerRef.current || disabled) return;
 
     function firstCall() {
       const top =
@@ -94,6 +94,8 @@ export function AnimateOnScroll({
 
       const scrollY = window.scrollY;
       const povScroll = scrollY - top;
+
+      console.log("init", povScroll);
 
       window.requestAnimationFrame(() => {
         wrapperRef.current?.style.setProperty(
@@ -104,7 +106,7 @@ export function AnimateOnScroll({
       });
     }
     firstCall();
-  }, [scrollSize, onAnimation, disabled, isVisible]);
+  }, [scrollSize, onAnimation, disabled]);
 
   return (
     <div

@@ -6,9 +6,10 @@ import bg2 from "./assets/bg2-min.jpg";
 import bg3 from "./assets/bg3-min.jpg";
 import bg4 from "./assets/bg4-min.jpg";
 import bg5 from "./assets/bg5-min.jpg";
+import bg7 from "./assets/bg7-min.jpg";
 import { useDesktop } from "./hooks/use-desktop";
 
-const images = [bg, bg2, bg3, bg4, bg5];
+const images = [bg, bg2, bg3, bg4, bg5, bg7];
 
 function App() {
   const ref3 = useRef<HTMLDivElement>(null);
@@ -44,7 +45,7 @@ function App() {
     <div data-animation-enabled={isDesktop} style={{ width: "100%" }}>
       <AnimateOnScroll multiple={2} threshold={0.5} disabled={!isDesktop}>
         <div className="img-container">
-          <img src={bg} alt="" />
+          <img src={bg7} alt="" />
           <div className="text-container">
             <h1>
               {isDesktop
