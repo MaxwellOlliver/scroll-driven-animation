@@ -30,7 +30,7 @@ git clone https://github.com/your-username/scroll-driven-animation.git
 cd scroll-driven-animation
 
 # Install dependencies
-yarn
+pnmpm install
 
 # Run development server
-yarn dev
+pnpm dev
